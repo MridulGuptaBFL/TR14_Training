@@ -1,0 +1,22 @@
+<template>
+    <template if:true={opportunities}>
+        <table class="slds-table slds-table_cell-buffer">
+            <thead>
+                <tr>
+                    <th>Opportunity Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={opportunities} for:item="opp">
+                    <tr key={opp.Id}>
+                        <td>
+                            <a href="javascript:void(0);" onclick={fireSelect} data-id={opp.Id} data-name={opp.Name}>{opp.Name}</a>
+                        </td>
+                        <td>{opp.Owner.Email}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </template>
+</template>

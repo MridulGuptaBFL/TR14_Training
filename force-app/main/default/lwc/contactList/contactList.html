@@ -1,0 +1,91 @@
+<template>
+    <lightning-card title="Account Contacts" icon-name="standard:contact">
+        <!-- Search & Action Section -->
+        <div class="slds-p-around_small slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+
+            <!-- Search -->
+            <div class="slds-grid slds-grid_vertical-align-center">
+                <lightning-input type="text" label="Search Contacts" value={searchKey} onchange={handleSearchChange}
+                    class="slds-m-right_small">
+                </lightning-input>
+                <lightning-button label="Search Contacts" variant="brand" onclick={handleSearch}>
+                </lightning-button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div>
+                <lightning-button label="Create Contact" variant="brand" class="slds-m-right_small"
+                    onclick={handleCreateContact}>
+                </lightning-button>
+                <lightning-button label="Update Account" variant="neutral" onclick={handleUpdateAccount}>
+                </lightning-button>
+            </div>
+        </div>
+
+        <!-- Contacts Table -->
+        <template if:true={contacts}>
+            <lightning-datatable key-field="Id" data={contacts} columns={columns}>
+            </lightning-datatable>
+        </template>
+        <template if:true={error}>
+            <p class="slds-text-color_error slds-p-around_small">Error loading contacts</p>
+        </template>
+    </lightning-card>
+
+    <!-- Create Contact Modal -->
+    <template if:true={showCreateModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Create New Contact</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input label="First Name" data-field="FirstName" value={newContact.FirstName}
+                        onchange={handleFieldChange}></lightning-input>
+                    <lightning-input label="Last Name" data-field="LastName" value={newContact.LastName}
+                        onchange={handleFieldChange}></lightning-input>
+                    <lightning-input label="Email" data-field="Email" value={newContact.Email}
+                        onchange={handleFieldChange} type="email"></lightning-input>
+                    <lightning-input label="Phone" data-field="Phone" value={newContact.Phone}
+                        onchange={handleFieldChange} type="tel"></lightning-input>
+                    <lightning-input label="Title" data-field="Title" value={newContact.Title}
+                        onchange={handleFieldChange}></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button label="Create" variant="brand" onclick={createContact}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <!-- Update Account Modal -->
+    <template if:true={showUpdateModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Update Account</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input label="Name" data-field="Name" value={accountRecord.Name}
+                        onchange={handleAccountChange}></lightning-input>
+                    <lightning-input label="Phone" data-field="Phone" value={accountRecord.Phone}
+                        onchange={handleAccountChange} type="tel"></lightning-input>
+                    <lightning-input label="Website" data-field="Website" value={accountRecord.Website}
+                        onchange={handleAccountChange} type="url"></lightning-input>
+                    <lightning-input label="Industry" data-field="Industry" value={accountRecord.Industry}
+                        onchange={handleAccountChange}></lightning-input>
+                    <lightning-input label="Type" data-field="Type" value={accountRecord.Type}
+                        onchange={handleAccountChange}></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button label="Update" variant="brand" onclick={updateAccountRecord}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

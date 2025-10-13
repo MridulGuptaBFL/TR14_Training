@@ -1,0 +1,51 @@
+/* ensure the LWC host renders as a block so the inner background is visible full-width */
+:host {
+    display: block;
+}
+
+/* container base */
+.notice {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 4rem;
+    padding: 2rem;
+    text-align: center;
+
+    color: #ffffff; /* default text color for colored backgrounds */
+    border-radius: 0.25rem;
+}
+
+/* background color mapping (lowercase names expected from JS) */
+.blue  { background-color: #0070d2; } /* Salesforce blue */
+.red   { background-color: #d9534f; }
+.green { background-color: #28a745; }
+.grey  { background-color: #6c757d; }
+/* alias for US spelling if custom setting uses 'gray' */
+.gray  { background-color: #6c757d; }
+
+.white { background-color: #ffffff; color: #000000; }
+
+/* typography */
+.notice h1 {
+    font-weight: 700;
+    margin: 0.25rem 0;
+}
+
+.notice p {
+    font-style: italic;
+    margin: 0.5rem 0 1rem 0;
+}
+
+/* button spacing (targets the lightning-button element wrapper) */
+.notice lightning-button {
+    margin-top: 0.5rem;
+}
+
+.notice .btn {
+    margin-top: 0.5rem;
+}

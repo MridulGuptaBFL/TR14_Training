@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Hot Account Search">
+        <div class="slds-m-around_medium">
+            <lightning-input type="text" label="Account Name" value={searchKey} onchange={handleInput}></lightning-input>
+            <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+        </div>
+        <template if:true={accountOptions}>
+            <lightning-combobox name="Account Dropdown"
+                                label="Select Account"
+                                value={selectedAccountId}
+                                options={accountOptions}
+                                onchange={handleSelect}>
+            </lightning-combobox>
+        </template>
+        <template if:true={accountInfo}>
+            <div class="slds-m-around_medium">
+                <b>Account Name:</b> {accountInfo.Name} <br/>
+                <b>SLA:</b> {accountInfo.SLA__c} <br/>
+                <b>Rating:</b> {accountInfo.Rating} <br/>
+                <b>Website:</b> {accountInfo.Website}
+                <template if:true={selectedOpportunityName}>
+                    <br><b>Selected Opportunity:</b> {selectedOpportunityName}
+                </template>
+            </div>
+        </template>
+        <c-hot-account-opportunities
+            account-id={selectedAccountId}
+            onoppselect={handleOpportunitySelect}>
+        </c-hot-account-opportunities>
+    </lightning-card>
+</template>

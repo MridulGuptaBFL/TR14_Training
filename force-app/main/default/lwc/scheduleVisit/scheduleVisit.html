@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="Schedule a Visit">
+        <div class="slds-p-around_medium">
+            <lightning-input type="date" label="Date of Visit" value={visitDate}
+                onchange={handleDateChange}></lightning-input>
+            <lightning-input type="text" label="Reason for Visit" value={visitReason}
+                onchange={handleReasonChange}></lightning-input>
+            <lightning-button variant="brand" label="Schedule Visit" onclick={handleSchedule}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Account Details (Read Only)" icon-name="standard:account">
+        <lightning-record-view-form record-id={recordId} object-api-name="Account">
+            <lightning-layout multiple-rows>
+                <template for:each={fields} for:item="field">
+                    <lightning-layout-item key={field} size="6">
+                        <lightning-output-field field-name={field}></lightning-output-field>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </lightning-record-view-form>
+    </lightning-card>
+</template>

@@ -1,0 +1,172 @@
+<apex:page standardController="Opportunity" extensions="OpportunityQuotePDFController" renderAs="pdf" applyBodyTag="false">
+    
+    <apex:stylesheet value="{!$Resource.pdfStyles}"/>
+
+    <body>
+        <!-- Render if quotes exist -->
+        <apex:outputPanel rendered="{!NOT(ISNULL(quotes))}">
+            <apex:repeat value="{!quotes}" var="quote">
+                <!-- Header -->
+                <table class="header-table">
+                    <tr>
+                        <td>
+                            <apex:image url="{!$Resource.Company_Logo}" width="90"/>
+                            <p class="normal">
+                                14th Floor, A-Wing Amar Business Zone, Near Swati Park, Veerbhadra Nagar, 
+                                Ganaraj Chowk, Baner, Pune, Maharashtra 411045
+                            </p>
+                        </td>
+                        <td class="quote-details">
+                            <table class="quote-details-table">
+                                <tr>
+                                    <td class="bold">Quote Number:</td>
+                                    <td>{!quote.QuoteNumber}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Info Table -->
+                <table class="info-table">
+                    <tr>
+                        <td>
+                            <div class="info-block-title">Quote To:</div>
+                            <div>
+                                {!quote.BillingStreet}<br/>
+                                {!quote.BillingCity}, {!quote.BillingState} {!quote.BillingPostalCode}<br/>
+                                {!quote.BillingCountry}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="info-block-title">Ship To:</div>
+                            <div>
+                                {!quote.ShippingStreet}<br/>
+                                {!quote.ShippingCity}, {!quote.ShippingState} {!quote.ShippingPostalCode}<br/>
+                                {!quote.ShippingCountry}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="info-block-title">BlueFlame Labs Rep:</div>
+                            <div>
+                                {!opp.Owner.Name} <!-- Possible error: opp may be null or not defined in controller -->
+                            </div>
+                            <br/>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Quote Dates -->
+                <table>
+                    <tr>
+                        <!-- Quote Information -->
+                        <td style="padding-right: 40px; vertical-align: top;">
+                            <div class="info-block-title">Quote Information:</div>
+                            <div>
+                                <span class="bold">Quote Date:</span>
+                                <apex:outputText value="{0, date, dd/MM/yyyy}">
+                                    <apex:param value="{!quote.CreatedDate}"/>
+                                </apex:outputText>
+                            </div>
+                            <div>
+                                <span class="bold">Quote Expiration:</span>
+                                <apex:outputText value="{0, date, dd/MM/yyyy}">
+                                    <apex:param value="{!quote.ExpirationDate}"/>
+                                </apex:outputText>
+                            </div>
+                        </td>
+                        <!-- Job Information -->
+                        <td style="vertical-align: top;">
+                            <div class="info-block-title">Job Information:</div>
+                            <div><span class="bold">NAME:</span> {!opp.Name}</div> <!-- Possible error: opp may be null -->
+                            <div>
+                                <span class="bold">CONTACT:</span> {!quote.Contact.Name} <!-- Possible error: Contact may be null -->
+                            </div>
+                            <div>
+                                <span class="bold">EMAIL:</span> {!quote.Contact.Email} <!-- Possible error: Contact may be null -->
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Quote Line Items -->
+                <table class="line-items-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>List Price</th>
+                            <th>Unit Price</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!quote.QuoteLineItems}" var="qli">
+                            <tr>
+                                <td>{!qli.Product2.ProductCode}</td> <!-- Possible error: Product2 may be null -->
+                                <td>{!qli.Description}</td>
+                                <td><apex:outputText value="{!qli.Quantity}"/></td>
+                                <td>
+                                    <apex:outputText value="{0, number, currency}">
+                                        <apex:param value="{!qli.ListPrice}"/>
+                                    </apex:outputText>
+                                </td>
+                                <td>
+                                    <apex:outputText value="{0, number, currency}">
+                                        <apex:param value="{!qli.UnitPrice}"/>
+                                    </apex:outputText>
+                                </td>
+                                <td>
+                                    <apex:outputText value="{0, number, currency}">
+                                        <apex:param value="{!qli.TotalPrice}"/>
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+
+                <!-- Quote Total -->
+                <table class="total-section">
+                    <tr>
+                        <td class="total-label">Quote Total</td>
+                        <td class="total-amount">
+                            <apex:outputText value="{0, number, currency}">
+                                <apex:param value="{!quote.GrandTotal}"/>
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Signature -->
+                <table class="full-width signature-section">
+                    <tr>
+                        <td width="60%" class="signature line">&nbsp;</td>
+                        <td width="10%"></td>
+                        <td width="30%">Sales Person: {!opp.Owner.Name}</td> <!-- Possible error: opp may be null -->
+                    </tr>
+                    <tr>
+                        <td>(Accepted by)</td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="signature line">By:</td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>(Position) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Date)</td><td></td><td></td>
+                    </tr>
+                </table>
+                <div style="margin-top: 50px; page-break-after: always;">
+                    <a href="#" class="bold">Terms and Conditions</a>
+                    Contractor acknowledges that it has read and agrees to all terms and conditions included in this Contract.
+                </div>
+            </apex:repeat>
+        </apex:outputPanel>
+
+        <!-- No Quotes -->
+        <apex:outputPanel rendered="{!ISNULL(quotes) || quotes.size == 0}"> 
+            <h1>Error: No Quotes Found</h1>
+            <p>There are no quotes associated with this Opportunity. Please create a quote first.</p>
+        </apex:outputPanel>
+    </body>
+</apex:page>

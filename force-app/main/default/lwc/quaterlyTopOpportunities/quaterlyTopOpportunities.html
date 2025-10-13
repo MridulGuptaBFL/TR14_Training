@@ -1,0 +1,15 @@
+<template>
+    <div class="slds-card">
+        <lightning-button variant="brand" label="QUARTERLY TOP OPPORTUNITIES" onclick={handleClick}></lightning-button>
+        <template if:true={opportunities.length}>
+            <ul>
+                <template for:each={opportunities} for:item="opp">
+                    <li key={opp}>{opp}</li>
+                </template>
+            </ul>
+        </template>
+        <template if:true={noData}>
+            <div>No top opportunities found for this quarter.</div>
+        </template>
+    </div>
+</template>

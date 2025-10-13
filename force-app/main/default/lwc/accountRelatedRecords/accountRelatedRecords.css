@@ -1,0 +1,38 @@
+/* Card styling */
+.slds-card {
+    margin: 1rem 0;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+}
+
+/* Section headings */
+.slds-card h2 {
+    margin-bottom: 1rem;
+    color: #16325c;
+    font-weight: 600;
+}
+
+/* Layout items spacing */
+lightning-layout-item {
+    margin-right: 2rem;
+    min-width: 180px;
+}
+
+/* Section labels */
+.slds-card b {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #0176d3;
+    font-size: 1rem;
+}
+
+/* Record names 
+.slds-card div[key] {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    background: #f4f6f9;
+    margin-bottom: 0.25rem;
+    font-size: 0.98rem;
+}*/

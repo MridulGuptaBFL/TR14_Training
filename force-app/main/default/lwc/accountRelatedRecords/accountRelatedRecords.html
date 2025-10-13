@@ -1,0 +1,25 @@
+<template>
+    <div class="slds-card">
+        <h2 class="slds-text-heading_medium">Related Records</h2>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item>
+                <b>Contacts:</b>
+                <template for:each={contacts} for:item="contact">
+                    <div key={contact}>{contact}</div>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <b>Opportunities:</b>
+                <template for:each={opportunities} for:item="opportunity">
+                    <div key={opportunity}>{opportunity}</div>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <b>Projects:</b>
+                <template for:each={projects} for:item="project">
+                    <div key={project}>{project}</div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>
