@@ -20,11 +20,11 @@
                 <!-- compact boxed meta table -->
                 <table style="float:right; width:260px; border:1px solid #ddd; background:#fafafa; border-collapse:collapse; text-align:left; font-size:11px;">
                     <tr>
-                        <td style="padding:4px 6px; font-weight:600; width:48%;">Invoice</td>
+                        <td style="padding:4px 6px; font-weight:600; width:48%;">Invoice:</td>
                         <td style="padding:4px 6px; text-align:right; width:52%;">{!InvoiceNumber}</td>
                     </tr>
                     <tr>
-                        <td style="padding:4px 6px; font-weight:600;">Date</td>
+                        <td style="padding:4px 6px; font-weight:600;">Date:</td>
                         <td style="padding:4px 6px; text-align:right;">
                             <apex:outputText value="{0, date, dd MMMM, yyyy}">
                                 <apex:param value="{!InvoiceDate}"/>
@@ -32,11 +32,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding:4px 6px; font-weight:600;">Payment</td>
+                        <td style="padding:4px 6px; font-weight:600;">Payment:</td>
                         <td style="padding:4px 6px; text-align:right;">{!OrderRec.Payment_Mode__c}</td>
                     </tr>
                     <tr>
-                        <td style="padding:4px 6px; font-weight:600;">Salesperson</td>
+                        <td style="padding:4px 6px; font-weight:600;">Salesperson:</td>
                         <td style="padding:4px 6px; text-align:right;">{!OrderRec.Owner.Name}</td>
                     </tr>
                 </table>

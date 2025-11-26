@@ -5,16 +5,10 @@ public with sharing class ScheduleVisitController {
             if (String.isBlank(contactName)) {
                 throw new AuraHandledException('Contact name is required.');
             }
-            List<Contact> contactList = [SELECT Id, Name FROM Contact WHERE Id = :contactName LIMIT 1];
-            if (contactList.isEmpty()) {
+            List<Contact> contacts = [SELECT Id FROM Contact WHERE Id = :contactName LIMIT 1];
+            if (contacts.isEmpty()) {
                 throw new AuraHandledException('Contact not found with the provided name.');
             }
-
-            List<Property__c> propertyList = [SELECT Name FROM Property__c WHERE Id = :propertyId LIMIT 1];
-            if (propertyList.isEmpty()) {
-                 throw new AuraHandledException('Property not found with the provided Id.' + propertyId);
-             }
-
             Date parsedDate;
             try {
                 parsedDate = Date.valueOf(visitDate);
@@ -22,10 +16,10 @@ public with sharing class ScheduleVisitController {
                 throw new AuraHandledException('Invalid visit date format.');
             }
             Task t = new Task();
-            t.Subject = contactList[0].Name + ' Visits - ' + propertyList[0].Name;
+            t.Subject = 'Site Visit for ' + propertyId;
             t.Description = reason;
             t.ActivityDate = parsedDate;
-            t.WhoId = contactList[0].Id;
+            t.WhoId = contacts[0].Id;
             insert t;
             return t.Id;
         } catch (AuraHandledException e) {
