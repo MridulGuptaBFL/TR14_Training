@@ -4,24 +4,26 @@ import getAccountDetails from '@salesforce/apex/HotAccountSearchController.getAc
  
 export default class HotAccountSearch extends LightningElement {
     @track searchKey = '';
-    @track accountOptions;
-    @track selectedAccountId;
-    @track accountInfo;
-    @track selectedOpportunityName;
+    @track accountOptions = [];
+    @track selectedAccountId = '';
+    @track accountInfo = null;
+    @track selectedOpportunityName = null;
  
     handleInput(event) {
-        this.searchKey = event.target.value;
+        // use event.detail.value for lightning-input
+        this.searchKey = event.detail.value;
     }
  
     async handleSearch() {
         try {
             const results = await searchAccounts({ accountName: this.searchKey });
-            this.accountOptions = results.map(account => ({
+            // ensure results is an array before mapping
+            this.accountOptions = (results || []).map(account => ({
                 label: account.Name, value: account.Id
             }));
         } catch (error) {
             this.accountOptions = [];
-            console.error(error);
+            console.error('Apex searchAccounts error:', error);
         }
     }
 
@@ -33,7 +35,7 @@ export default class HotAccountSearch extends LightningElement {
             this.selectedOpportunityName = null;
         } catch (error) {
             this.accountInfo = null;
-            console.error(error);
+            console.error('Apex getAccountDetails error:', error);
         }
     }
  

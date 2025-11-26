@@ -1,0 +1,160 @@
+<template> 
+    
+    <!-- Main card container --> 
+    <lightning-card title="Dynamic Query Builder" icon-name="utility:search"> 
+        <div class="container"> 
+            <!-- ======================= 
+                 SECTION 1: OBJECT & FIELD SELECTION 
+            ======================== --> 
+            <section class="config-panel"> 
+                <!-- Section heading --> 
+                <h2 class="section-title">Select Object & Fields</h2> 
+  
+                <!-- Custom Object Lookup Input with Search --> 
+                <div class="slds-form-element custom-lookup-container"> 
+                    <label class="slds-form-element__label">Select Object</label> 
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right"> 
+                        <lightning-input 
+                            type="search" 
+                            label="Search Objects" 
+                            value={objectSearchTerm} 
+                            onchange={handleObjectSearch} 
+                            onfocus={handleObjectInputFocus} 
+                            onblur={handleObjectInputBlur} 
+                            variant="label-hidden" 
+                            placeholder="Search Objects..."> 
+                        </lightning-input> 
+                    </div> 
+  
+                    <!-- Custom Object Dropdown --> 
+                    <template if:true={showObjectDropdown}> 
+                        <div class="slds-dropdown slds-dropdown_fluid"> 
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation"> 
+                                <template for:each={filteredObjectOptions} for:item="obj" > 
+                                    <li key={obj.value} 
+                                        role="presentation" 
+                                        class="slds-listbox__item" 
+                                        data-value={obj.value} 
+                                        onclick={handleObjectClick}> 
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option"> 
+                                            <span class="slds-media__body"> 
+                                                <span class="slds-truncate" title={obj.label}>{obj.label}</span> 
+                                            </span> 
+                                        </div> 
+                                    </li> 
+                                </template> 
+                                <template if:false={filteredObjectOptions}> 
+                                    <li role="presentation" class="slds-listbox__item"> 
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"> 
+                                            <span class="slds-media__body"> 
+                                                <span class="slds-truncate">No results found</span> 
+                                            </span> 
+                                        </div> 
+                                    </li> 
+                                </template> 
+                            </ul> 
+                        </div> 
+                    </template> 
+                </div> 
+
+  
+  
+                <!-- Dual-listbox: shows fields of selected object --> 
+                <template if:true={fieldOptions}> 
+                    <lightning-dual-listbox 
+                        name="fields" 
+                        label="Select Fields" 
+                        source-label="Available Fields" 
+                        selected-label="Chosen Fields" 
+                        options={fieldOptions} 
+                        value={selectedFields} 
+                        onchange={handleFieldChange}> 
+                    </lightning-dual-listbox> 
+                </template> 
+
+
+                <!-- Record Limit Dropdown --> 
+                <div class="slds-m-top_small"> 
+                    <lightning-combobox 
+                        label="Max Records" 
+                        value={limitValue} 
+                        options={limitOptions} 
+                        onchange={handleLimitChange}> 
+                    </lightning-combobox> 
+  
+                </div> 
+            </section> 
+  
+            <!-- ======================= 
+                 SECTION 2: SOQL QUERY DISPLAY 
+            ======================== --> 
+            <section class="query-panel"> 
+                <h2 class="section-title">Generated SOQL</h2> 
+
+  
+                <!-- SOQL Textarea --> 
+                <lightning-textarea 
+                    class="query-box" 
+                    value={query} 
+                    onchange={handleQueryChange}> 
+                </lightning-textarea> 
+
+  
+                <!-- Execute / Clear Buttons --> 
+                <div class="slds-m-top_small button-row"> 
+                    <lightning-button 
+                        variant="brand" 
+                        label="Execute Query" 
+                        onclick={executeQuery}> 
+                    </lightning-button> 
+  
+                    <lightning-button 
+                        variant="neutral" 
+                        label="Clear" 
+                        onclick={clearAll}> 
+                    </lightning-button> 
+                </div> 
+            </section> 
+
+  
+            <!-- ======================= 
+                 SECTION 3: QUERY RESULTS 
+            ======================== --> 
+            <template if:true={records}> 
+                <section class="results-panel slds-m-top_medium"> 
+                    <h2 class="section-title">Query Results ({records.length})</h2> 
+
+  
+                    <!-- Datatable wrapper with horizontal scroll --> 
+                    <div class="datatable-container"> 
+                        <lightning-datatable 
+                            key-field="id" 
+                            data={records} 
+                            columns={columns} 
+                            hide-checkbox-column 
+                            onsort={handleSort} 
+                            sorted-by={sortedBy} 
+                            sorted-direction={sortedDirection}> 
+                        </lightning-datatable> 
+                    </div> 
+                </section> 
+            </template> 
+  
+            <!-- ======================= 
+                 SECTION 4: ERROR MESSAGE 
+            ======================== --> 
+            <template if:true={error}> 
+                <div class="error-container"> 
+                    <lightning-icon 
+                        icon-name="utility:error" 
+                        alternative-text="Error" 
+                        size="small" 
+                        class="error-icon"> 
+                    </lightning-icon> 
+                    <p class="error-text">{error}</p> 
+                </div> 
+            </template> 
+
+        </div> 
+    </lightning-card> 
+</template>

@@ -1,7 +1,7 @@
 public with sharing class HotAccountSearchController {
     @AuraEnabled(cacheable=true)
     public static List<Account> searchAccounts(String accountName) {
-        return [SELECT Id, Name FROM Account WHERE Name LIKE :('%' + accountName + '%') AND Rating = 'Hot' LIMIT 10];
+        return [SELECT Id, Name FROM Account WHERE Name LIKE :('%' + accountName + '%') LIMIT 10];
     }
  
     @AuraEnabled(cacheable=true)

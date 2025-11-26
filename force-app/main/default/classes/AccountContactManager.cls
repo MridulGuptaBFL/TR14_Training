@@ -16,8 +16,9 @@ public class AccountContactManager { //question 7
             AccountNumber = 'BFL0002',
             Phone = '987654321',
             Industry = 'Technology',
+            BillingCountry = 'India',
             BillingCity = 'Pune',
-            BillingState = 'MH'
+            BillingState = 'Maharashtra'
         );
         
         insert new List<Account>{acc1, acc2};

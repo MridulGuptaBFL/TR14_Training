@@ -22,9 +22,13 @@ export default class NoticeBoard extends LightningElement {
             });
     }
 
-    get containerClass() {
-        return `notice ${this.color ? this.color.toLowerCase() : 'white'}`;
+    renderedCallback(){
+        this.template.querySelector('.backgroung').style.backgroundColor = this.color;
     }
+
+    // get containerClass() {
+    //     return `notice ${this.color ? this.color.toLowerCase() : 'white'}`;
+    // }
  
     handleButtonClick() {
         this.buttonLabel = this.thankYouLabel;

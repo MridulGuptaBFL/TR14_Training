@@ -4,14 +4,14 @@ public class ProjectHelper { //Question 1 of Collections
     // 1. Get Members by Project Name
     public static void getMembers(String projectName) {
 
-        List<Project__c> projects = [SELECT Id, Name FROM Project__c WHERE Name = :projectName];
-        if(projects.size() == 0) {
+        List<Project__c> projectList = [SELECT Id, Name FROM Project__c WHERE Name = :projectName];
+        if(projectList.size() == 0) {
             throw new AuraHandledException('No project with matching name found');
         }
-        if(projects.size() > 1){
-            throw new AuraHandledException('Multiple projects with matching name found');
+        if(projectList.size() > 1){
+            throw new AuraHandledException('Multiple projectList with matching name found');
         }
-        Project__c proj = projects[0];
+        Project__c proj = projectList[0];
         
         List<Project_Member__c> members = [
             SELECT Member__c, Name

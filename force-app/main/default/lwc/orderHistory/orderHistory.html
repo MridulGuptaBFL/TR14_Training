@@ -1,0 +1,126 @@
+<template> 
+    <lightning-card title="Order History" icon-name="standard:orders"> 
+        <div class="filters slds-grid slds-wrap slds-p-around_medium"> 
+
+            <!-- Top row: three dropdowns evenly spaced -->
+            <div class="top-row slds-grid slds-wrap slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-3 filter-col">
+                    <label class="slds-form-element__label">Period:</label>
+                    <lightning-combobox 
+                        value={selectedPeriod} 
+                        placeholder="Select Period" 
+                        options={periodOptions} 
+                        onchange={handlePeriodChange} 
+                    ></lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-3 filter-col">
+                    <label class="slds-form-element__label">Status:</label>
+                    <lightning-combobox 
+                        value={selectedStatus} 
+                        placeholder="Select Status" 
+                        options={statusOptions} 
+                        onchange={handleStatusChange} 
+                    ></lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-3 filter-col">
+                    <label class="slds-form-element__label">Account:</label>
+                    <lightning-combobox 
+                        value={selectedAccount} 
+                        placeholder="Select Account" 
+                        options={accountOptions} 
+                        onchange={handleAccountChange} 
+                    ></lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Second row: search bar left, clear link aligned right on same line -->
+            <div class="search-row slds-col slds-size_1-of-1 slds-m-top_small">
+                <div class="search-wrapper">
+                    <lightning-input
+                        type="search"
+                        placeholder=" Enter Order Number or Status.."
+                        value={searchTerm}
+                        onchange={handleSearchChange}
+                        data-id="searchInput"
+                        class="search-input"
+                    ></lightning-input>
+
+                    <a href="javascript:void(0)" onclick={clearSearch} class="clear-link" title="Clear Search">Clear all</a>
+                </div>
+            </div>
+
+        </div> 
+ 
+        <div class="results slds-p-around_medium"> 
+            <template if:true={isLoading}> 
+                <div class="spinner-wrapper">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template> 
+ 
+            <div class="table-wrapper">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" role="grid"> 
+                    <thead> 
+                        <tr class="slds-line-height_reset table-header"> 
+                            <th scope="col" class="col-order-number"><div class="slds-truncate order-heading">Order Number</div></th> 
+                            <th scope="col" class="col-order-date"><div class="slds-truncate">Order Date</div></th> 
+                            <th scope="col" class="col-order-status"><div class="slds-truncate">Order Status</div></th> 
+                            <th scope="col" class="col-actions"><div class="slds-truncate">Action</div></th> 
+                        </tr> 
+                    </thead> 
+                    <tbody> 
+                        <template if:true={orders}> 
+                            <template for:each={orders} for:item="ord"> 
+                                <tr key={ord.orderId} class="table-row"> 
+                                    <td class="col-order-number"><div class="slds-truncate cell-content">{ord.orderNumber}</div></td> 
+                                    <td class="col-order-date"><div class="slds-truncate cell-content">{ord.orderDate}</div></td> 
+                                    <td class="col-order-status"><div class="slds-truncate"><span class="status-badge" data-status={ord.orderStatus}>{ord.orderStatus}</span></div></td> 
+                                    <td class="col-actions"><div class="action-buttons">
+                                        <lightning-button-icon icon-name="utility:preview" alternative-text="View" title="View" disabled variant="bare" ></lightning-button-icon> 
+                                        <lightning-button-icon icon-name="utility:download" alternative-text="Download" title="Download" disabled variant="bare"></lightning-button-icon>
+                                    </div></td> 
+                                </tr> 
+                            </template> 
+                        </template> 
+                        <template if:true={noRecords}> 
+                            <tr> 
+                                <td colspan="4" class="no-records-cell"> 
+                                    <div class="no-records">
+                                        <lightning-icon icon-name="utility:search" size="large" class="no-records-icon"></lightning-icon>
+                                        <p>No orders found</p>
+                                    </div>
+                                </td> 
+                            </tr> 
+                        </template> 
+                    </tbody> 
+                </table>
+            </div>
+ 
+
+            <!-- Paginator with gray filled arrow buttons (white arrow). On hover fill -> black -->
+            <div class="paginator-wrapper"> 
+                <lightning-button-icon 
+                    icon-name="utility:chevronleft" 
+                    alternative-text="Previous"
+                    title="Previous Page"
+                    onclick={previousPage} 
+                    disabled={prevDisabled}
+                    class="pagination-btn left"
+                ></lightning-button-icon>
+                <div class="page-info">
+                    <span class="page-number">Page {pageNumber}</span>
+                </div>
+                <lightning-button-icon 
+                    icon-name="utility:chevronright" 
+                    alternative-text="Next"
+                    title="Next Page"
+                    onclick={nextPage} 
+                    disabled={nextDisabled}
+                    class="pagination-btn right"
+                ></lightning-button-icon>
+            </div> 
+        </div> 
+    </lightning-card> 
+</template>

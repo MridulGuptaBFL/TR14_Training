@@ -3,6 +3,7 @@ import getContactsByAccountId from '@salesforce/apex/ContactController.getContac
 import createContactForAccount from '@salesforce/apex/ContactController.createContactForAccount';
 import getAccountDetails from '@salesforce/apex/ContactController.getAccountDetails';
 import updateAccount from '@salesforce/apex/ContactController.updateAccount';
+import {updateRecord} from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -151,22 +152,40 @@ export default class ContactList extends LightningElement {
     }
   }
 
-  async updateAccountRecord() {
-    try {
-      await updateAccount({ acc: this.accountRecord });
+  // async updateAccountRecord() {
+  //   try {
+  //     await updateAccount({ acc: this.accountRecord });
 
-      this.showToast("Success", "Account updated successfully", "success");
+  //     this.showToast("Success", "Account updated successfully", "success");
 
-      this.closeModal();
-    } catch (err) {
-      const msg =
-        err && err.body && err.body.message
-          ? err.body.message
-          : "Error updating account";
+  //     this.closeModal();
+  //   } catch (err) {
+  //     const msg =
+  //       err && err.body && err.body.message
+  //         ? err.body.message
+  //         : "Error updating account";
 
-      this.showToast("Error", msg, "error");
-    }
-  }
+  //     this.showToast("Error", msg, "error");
+  //   }
+  // }
+  
+        async updateAccountRecord(){
+            try{
+                const fields = {
+                    Id: this.recordId,
+                    ...this.accountRecord
+                };
+ 
+                const recordInput = {fields};
+ 
+                await updateRecord(recordInput);
+                this.showToast("Success", "Account updated successfully", "success");
+                this.closeModal();
+            }catch(err){
+                const message = err && err.body && err.body.message ? err.body.message : "Error updating account";
+                this.showToast("Error", message, "error");
+            }
+          }
 
   /* ---------- Helpers ---------- */
 

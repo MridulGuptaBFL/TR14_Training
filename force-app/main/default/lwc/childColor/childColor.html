@@ -1,0 +1,16 @@
+<template>  
+<lightning-card title="Step 2: Select a Color" icon-name="utility:palette">
+    <div class="color-container">
+      <template for:each={colorList} for:item="item">
+        <div 
+          key={item.value}
+          class="color-circle"
+          style={item.style}
+          data-color={item.value}
+          onclick={handleColorClick}
+          title={item.label}>
+        </div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

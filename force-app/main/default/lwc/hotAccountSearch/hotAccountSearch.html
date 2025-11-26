@@ -1,10 +1,11 @@
 <template>
     <lightning-card title="Hot Account Search">
-        <div class="slds-m-around_medium">
-            <lightning-input type="text" label="Account Name" value={searchKey} onchange={handleInput}></lightning-input>
-            <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+        <div class="slds-m-around_medium search-row">
+            <lightning-input class="search-input" type="text" label="Account Name" value={searchKey} onchange={handleInput}></lightning-input>
+            <lightning-button class="search-button" label="Search" onclick={handleSearch}></lightning-button>
         </div>
-        <template if:true={accountOptions}>
+
+        <template if:true={accountOptions.length}>
             <lightning-combobox name="Account Dropdown"
                                 label="Select Account"
                                 value={selectedAccountId}
@@ -12,20 +13,44 @@
                                 onchange={handleSelect}>
             </lightning-combobox>
         </template>
+
         <template if:true={accountInfo}>
-            <div class="slds-m-around_medium">
-                <b>Account Name:</b> {accountInfo.Name} <br/>
-                <b>SLA:</b> {accountInfo.SLA__c} <br/>
-                <b>Rating:</b> {accountInfo.Rating} <br/>
-                <b>Website:</b> {accountInfo.Website}
+            <div class="slds-m-around_medium account-info">
+                <div class="account-main">
+                    <div class="field-box">
+                        <div class="box-label">Account Name</div>
+                        <div class="box-value">{accountInfo.Name}</div>
+                    </div>
+
+                    <div class="field-box">
+                        <div class="box-label">SLA</div>
+                        <div class="box-value">{accountInfo.SLA__c}</div>
+                    </div>
+
+                    <div class="field-box">
+                        <div class="box-label">Rating</div>
+                        <div class="box-value">{accountInfo.Rating}</div>
+                    </div>
+
+                    <div class="field-box">
+                        <div class="box-label">Website</div>
+                        <div class="box-value">{accountInfo.Website}</div>
+                    </div>
+                </div>
+
                 <template if:true={selectedOpportunityName}>
-                    <br><b>Selected Opportunity:</b> {selectedOpportunityName}
+                    <div class="selected-opp">
+                        Selected Opportunity: <strong>{selectedOpportunityName}</strong>
+                    </div>
                 </template>
             </div>
         </template>
-        <c-hot-account-opportunities
-            account-id={selectedAccountId}
-            onoppselect={handleOpportunitySelect}>
-        </c-hot-account-opportunities>
+
+        <template if:true={selectedAccountId}>
+            <c-hot-account-opportunities
+                account-id={selectedAccountId}
+                onoppselect={handleOpportunitySelect}>
+            </c-hot-account-opportunities>
+        </template>
     </lightning-card>
 </template>

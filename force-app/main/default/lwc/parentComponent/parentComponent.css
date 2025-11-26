@@ -1,0 +1,77 @@
+.main-card { 
+ background: linear-gradient(180deg, #ffffff, #f4f6f9);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.output-card {
+  border: 2px dashed #d8dde6;
+  border-radius: 12px;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fafafa;
+}
+
+/* Base Shape */
+.shape {
+  width: 120px;
+  height: 120px;
+  border: 3px solid #333;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Shape Variants */
+.square {
+  border-radius: 6px;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 120px solid #000;
+  background: transparent !important;
+  border-radius: 0;
+}
+
+/* Pentagon with colored fill + border */
+.pentagon {
+  position: relative;
+  background: white;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  border: none;
+}
+
+.pentagon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  clip-path: inherit;
+  box-shadow: 0 0 0 3px #333;
+  border-radius: 4px;
+}
+
+/* Animation */
+.animate-shape {
+  animation: fadeInScale 0.6s ease-in-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

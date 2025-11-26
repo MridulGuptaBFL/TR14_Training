@@ -1,0 +1,122 @@
+<apex:page controller="InvoiceController" renderAs="pdf" showHeader="false" applyBodyTag="false" contentType="application/pdf#Invoice.pdf">
+    <apex:stylesheet value="{!$Resource.invoiceStyles}" />
+
+    <div class="invoice" style="padding:16px;">
+        <div class="header" style="overflow:auto;">
+            <!-- left column: fixed max-height so logo cannot push content to next page -->
+            <div style="float:left; width:40%; max-height:90px; overflow:hidden;">
+                <!-- Constrain both width and height; keep aspect ratio with width:auto;height:auto -->
+                <apex:image url="{!URLFOR($Resource.Invoice_Logo)}"
+                            style="width:140px; height:auto; display:block; margin-bottom:8px;"
+                            rendered="{!NOT(ISNULL($Resource.Invoice_Logo))}" />
+                <div class="company-name" style="font-size:18px; font-weight:700; margin-top:4px;">{!StoreName}</div>
+                <div class="company-address" style="font-size:12px; margin-top:4px;"><apex:outputText value="{!StoreAddress}" escape="false"/></div>
+            </div>
+
+            <!-- right column -->
+            <div style="float:right; width:52%; text-align:right;">
+                <div style="font-size:16px; font-weight:700; margin-bottom:6px;">INVOICE</div>
+
+                <!-- compact boxed meta table -->
+                <table style="float:right; width:260px; border:1px solid #ddd; background:#fafafa; border-collapse:collapse; text-align:left; font-size:11px;">
+                    <tr>
+                        <td style="padding:4px 6px; font-weight:600; width:48%;">Invoice</td>
+                        <td style="padding:4px 6px; text-align:right; width:52%;">{!InvoiceNumber}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px 6px; font-weight:600;">Date</td>
+                        <td style="padding:4px 6px; text-align:right;">
+                            <apex:outputText value="{0, date, dd MMMM, yyyy}">
+                                <apex:param value="{!InvoiceDate}"/>
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px 6px; font-weight:600;">Payment</td>
+                        <td style="padding:4px 6px; text-align:right;">{!OrderRec.Payment_Mode__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px 6px; font-weight:600;">Salesperson</td>
+                        <td style="padding:4px 6px; text-align:right;">{!OrderRec.Owner.Name}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div style="clear:both; height:10px;"></div>
+
+        <div class="billship" style="overflow:auto; margin-top:6px;">
+            <div style="float:left; width:48%;">
+                <strong>Bill To:</strong><br/>
+                <apex:outputText value="{!BillingAddressHtml}" escape="false" />
+                <div class="small"><strong>Contact:</strong> {!PrimaryContactName}</div>
+            </div>
+            <div style="float:right; width:48%; text-align:right;">
+                <strong>Ship To:</strong><br/>
+                <apex:outputText value="{!ShippingAddressHtml}" escape="false" />
+            </div>
+        </div>
+
+        <div style="clear:both; height:14px;"></div>
+
+        <table class="items-table" cellpadding="4" cellspacing="0" width="100%" style="border-collapse:collapse;">
+            <thead>
+                <tr style="background:#f6f6f6;">
+                    <th style="width:10%; text-align:center; border:1px solid #ddd;">Code</th>
+                    <th style="width:36%; text-align:left; border:1px solid #ddd;">Description</th>
+                    <th style="width:8%; text-align:center; border:1px solid #ddd;">Qty</th>
+                    <th style="width:12%; text-align:right; border:1px solid #ddd;">Unit Price</th>
+                    <th style="width:8%; text-align:right; border:1px solid #ddd;">Discount</th>
+                    <th style="width:10%; text-align:right; border:1px solid #ddd;">Taxable</th>
+                    <th style="width:8%; text-align:right; border:1px solid #ddd;">Net</th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!OrderItems}" var="li">
+                    <tr>
+                        <td style="text-align:center; border:1px solid #eee;">{!li.ProductCode}</td>
+                        <td style="text-align:left; border:1px solid #eee;">{!li.ProductName}</td>
+                        <td style="text-align:center; border:1px solid #eee;">{!li.Quantity}</td>
+                        <td style="text-align:right; border:1px solid #eee;">{!li.fmtUnitPrice}</td>
+                        <td style="text-align:right; border:1px solid #eee;">{!li.fmtDiscount}</td>
+                        <td style="text-align:right; border:1px solid #eee;">{!li.fmtTaxable}</td>
+                        <td style="text-align:right; border:1px solid #eee;">{!li.fmtNetPrice}</td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+
+        <div style="height:12px;"></div>
+
+        <div class="totals-box" style="width:320px; float:right;">
+            <table width="100%" cellpadding="4" cellspacing="0" style="border-collapse:collapse;">
+                <tr><td style="border:none;">Subtotal:</td><td style="text-align:right;">{!SubTotalFmt}</td></tr>
+
+                <apex:outputPanel layout="none" rendered="{!TotalCGST > 0}">
+                    <tr><td>CGST:</td><td style="text-align:right;">{!TotalCGSTFmt}</td></tr>
+                </apex:outputPanel>
+
+                <apex:outputPanel layout="none" rendered="{!TotalSGST > 0}">
+                    <tr><td>SGST:</td><td style="text-align:right;">{!TotalSGSTFmt}</td></tr>
+                </apex:outputPanel>
+
+                <apex:outputPanel layout="none" rendered="{!TotalIGST > 0}">
+                    <tr><td>IGST:</td><td style="text-align:right;">{!TotalIGSTFmt}</td></tr>
+                </apex:outputPanel>
+
+                <tr><td style="font-weight:700;">Total Payable:</td><td style="text-align:right; font-weight:700;">{!TotalPayableFmt}</td></tr>
+            </table>
+        </div>
+
+        <div style="clear:both; height:40px;"></div>
+
+        <div class="footer" style="font-size:11px;">
+            <div><strong>Terms &amp; Conditions:</strong> All goods sold will not be taken back.</div>
+            <div class="small">For exchange, please carry original bill. Exchange will be done only withing 15 days of purchase date.</div>
+            <apex:outputPanel layout="none" rendered="{!AnyDiscountAbove10Pct}">
+                <div style="color:#a00; margin-top:6px;">Note: One or more line items have discounts greater than 10% — please route for approval before invoicing.</div>
+            </apex:outputPanel>
+        </div>
+
+    </div>
+</apex:page>

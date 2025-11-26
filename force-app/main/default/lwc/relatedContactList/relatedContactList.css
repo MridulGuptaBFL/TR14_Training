@@ -1,0 +1,43 @@
+:host {
+    display: block;
+    font-family: "Salesforce Sans", Arial, sans-serif;
+}
+
+/* Card wrapper */
+.custom-container {
+    padding: 0.6rem;
+    background: #ffffff;
+    border: 1px solid #eef2f6;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* Datatable adjustments */
+.contact-table {
+    width: 100%;
+    min-height: 160px;
+    --lwc-border-radius: 4px;
+}
+
+/* Messages */
+.no-account-message {
+    margin: 0.75rem 0;
+    color: #3b3b3b;
+    font-weight: 600;
+}
+
+.error-message {
+    margin: 0.5rem 0;
+    color: #c23934; /* Salesforce error red */
+    font-weight: 600;
+}
+
+/* Small-screen tweaks */
+@media (max-width: 600px) {
+    .custom-container {
+        padding: 0.5rem;
+    }
+    .contact-table {
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,157 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #111;
+    margin: 24px;
+}
+
+/* Container */
+.invoice {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Header: company block and invoice meta */
+.header {
+    overflow: hidden;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #222;
+}
+
+.company-block {
+    float: left;
+    width: 60%;
+}
+
+.company-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.company-address {
+    font-size: 12px;
+    line-height: 1.35;
+    color: #222;
+}
+
+/* Invoice meta box on the right */
+.invoice-meta {
+    float: right;
+    width: 36%;
+    border: 1px solid #222;
+    padding: 8px;
+    text-align: left;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+.invoice-meta .meta-row {
+    margin-bottom: 6px;
+}
+
+.meta-label {
+    display: inline-block;
+    width: 42%;
+    font-weight: 600;
+}
+
+.meta-value {
+    display: inline-block;
+    width: 56%;
+    text-align: right;
+}
+
+/* Bill To / Ship To block */
+.billship {
+    margin-top: 14px;
+    overflow: hidden;
+}
+
+.bill, .ship {
+    width: 48%;
+    box-sizing: border-box;
+    border: 1px solid #d0d0d0;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.bill {
+    float: left;
+}
+
+.ship {
+    float: right;
+}
+
+/* Items table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.items-table th, .items-table td {
+    border: 1px solid #bbb;
+    padding: 8px;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.items-table th {
+    background: #f6f6f6;
+    font-weight: 700;
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Totals box aligned right */
+.totals-box {
+    width: 36%;
+    float: right;
+    margin-top: 12px;
+    border: 1px solid #222;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #fafafa;
+    font-size: 12px;
+}
+
+.totals-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-box td {
+    padding: 6px 4px;
+    border: none;
+}
+
+.totals-label {
+    font-weight: 600;
+}
+
+/* Footer */
+.footer {
+    clear: both;
+    margin-top: 28px;
+    padding-top: 8px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 10px;
+    color: #444;
+}
+
+/* Helpers */
+.clear { clear: both; }
+.small { font-size: 11px; color: #555; }

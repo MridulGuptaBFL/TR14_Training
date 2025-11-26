@@ -1,0 +1,30 @@
+<template>
+<lightning-card title=" Shape & Color Designer" icon-name="utility:brush" class="main-card">
+    <div class="slds-p-around_medium slds-text-align_center">
+
+      <!-- Step 1: Shape Selector -->
+      <c-child-shape onshapeselected={handleShapeSelection}></c-child-shape>
+
+      <!-- Step 2: Color Selector (below shape) -->
+      <template if:true={selectedShape}>
+        <c-child-color oncolorselected={handleColorSelection}></c-child-color>
+      </template>
+
+      <!-- Output Section -->
+      <div class="output-card slds-m-top_large">
+        <template if:true={selectedShape}>
+          <div class={outputClass} style={shapeStyle}></div>
+          <p class="slds-m-top_small slds-text-title_caps slds-text-color_success">
+            You selected: {selectedShape} in {selectedColorLabel}
+          </p>
+        </template>
+
+        <template if:false={selectedShape}>
+          <p class="slds-text-color_weak">
+            Please select a shape, then choose a color below.
+          </p>
+        </template>
+      </div>
+    </div>
+  </lightning-card>
+</template>

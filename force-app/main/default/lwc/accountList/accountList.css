@@ -1,0 +1,48 @@
+.custom-container{
+    color : black;
+}
+
+/* Component layout and typography */
+:host {
+    display: block;
+    font-family: "Salesforce Sans", Arial, sans-serif;
+    padding: 0.5rem 0;
+}
+
+/* Make the card visually distinct and consistent with other LWC styles */
+lightning-card {
+    --lwc-border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+/* Ensure combobox uses full available width */
+lightning-combobox,
+.lightning-combobox {
+    width: 100%;
+    max-width: 520px;
+    box-sizing: border-box;
+}
+
+/* Messages (error / no-data) */
+.slds-text-color_error,
+.error-message {
+    color: #c23934;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.no-data {
+    color: #3b3b3b;
+    margin: 0.5rem 0;
+}
+
+/* Small-screen tweaks */
+@media (max-width: 600px) {
+    :host {
+        padding: 0.25rem 0;
+    }
+    lightning-combobox {
+        max-width: 100%;
+        font-size: 13px;
+    }
+}

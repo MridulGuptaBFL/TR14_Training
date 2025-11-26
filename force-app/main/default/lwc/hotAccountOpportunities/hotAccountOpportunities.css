@@ -1,0 +1,44 @@
+/* ...existing code... */
+.custom-opp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.custom-opp-header th {
+    background: #f3f6fb;
+    color: #16325c;
+    padding: 0.5rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid #d8e3f3;
+}
+
+.custom-opp-row td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eef3fb;
+}
+
+.custom-opp-row:nth-child(even) {
+    background: #fbfdff;
+}
+
+.select-btn {
+    min-width: 72px;
+}
+
+/* small responsive adjustments */
+@media (max-width: 520px) {
+    .custom-opp-table, .custom-opp-table thead, .custom-opp-table tbody, .custom-opp-table th, .custom-opp-table td, .custom-opp-table tr {
+        display: block;
+    }
+    .custom-opp-header {
+        display: none;
+    }
+    .custom-opp-row {
+        margin-bottom: 0.75rem;
+        border: 1px solid #eef3fb;
+        padding: 0.5rem;
+    }
+}

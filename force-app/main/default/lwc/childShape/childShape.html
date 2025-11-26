@@ -1,0 +1,12 @@
+<template>
+  <lightning-card title="Step 1: Select a Shape" icon-name="utility:shape">
+    <div class="shape-container">
+      <template for:each={shapes} for:item="shape">
+        <div key={shape} class="shape-item" data-shape={shape} onclick={handleShapeClick}>
+          <div class={shape}></div>
+          <p class="shape-label">{shape}</p>
+        </div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

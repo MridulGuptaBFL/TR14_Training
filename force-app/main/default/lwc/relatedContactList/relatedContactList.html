@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Related Contacts" class="custom-container">
+        <!-- When contacts are fetched -->
+        <template if:true={contacts}>
+            <lightning-datatable
+                key-field="Id"
+                data={contacts}
+                columns={columns}
+                class="contact-table">
+            </lightning-datatable>
+        </template>
+ 
+        <!-- When no account selected -->
+        <template if:true={noAccountSelected}>
+            <p class="no-account-message slds-text-heading_small">
+                No Account is selected
+            </p>
+        </template>
+ 
+        <!-- Error message -->
+        <template if:true={error}>
+            <p class="error-message slds-text-color_error">Error fetching contacts</p>
+        </template>
+    </lightning-card>
+</template>

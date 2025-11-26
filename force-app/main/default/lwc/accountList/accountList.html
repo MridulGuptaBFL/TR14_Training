@@ -1,0 +1,25 @@
+<template>
+    <!-- Lightning card container -->
+    <lightning-card title="Select Account">
+        <!-- Show picklist only when data is available -->
+        <template if:true={accounts.data}>
+            <lightning-combobox
+                name="accountPicklist"
+                label="Choose an Account"
+                value={selectedAccountId}
+                options={accountOptions}
+                onchange={handleAccountChange}>
+            </lightning-combobox>
+        </template>
+ 
+        <!-- If error occurs during data load -->
+        <template if:true={accounts.error}>
+            <p class="slds-text-color_error">Error loading accounts</p>
+        </template>
+ 
+        <!-- If no Accounts found -->
+        <template if:false={accounts.data}>
+            <p>No accounts available</p>
+        </template>
+    </lightning-card>
+</template>
